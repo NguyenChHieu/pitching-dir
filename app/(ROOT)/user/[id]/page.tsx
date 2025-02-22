@@ -1,9 +1,13 @@
 import { auth } from "@/auth";
+import { StartupCardSkeleton } from "@/components/StartupCard";
+import UserStartups from "@/components/UserStartups";
 import { client } from "@/sanity/lib/client";
 import { AUTHOR_BY_ID_QUERY } from "@/sanity/lib/queries";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
+export const experimental_ppr = true;
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const id = (await params).id;
@@ -37,13 +41,15 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
         </div>
 
         <div className="flex-1 flex flex-col gap-5 lg:-mt-5">
-            <p className="text-30-bold">
-                {session?.id === id ? 'Your' : 'All'} Startups
-            </p>
+          <p className="text-30-bold">
+            {session?.id === id ? "Your" : "All"} Startups
+          </p>
 
-            <ul className="card_grid-sm">
-
-            </ul>
+          <ul className="card_grid-sm">
+            <Suspense fallback={<StartupCardSkeleton />}>
+              <UserStartups id={id} />
+            </Suspense>
+          </ul>
         </div>
       </section>
     </>
