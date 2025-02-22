@@ -89,3 +89,29 @@ export const STARTUPS_BY_AUTHOR_QUERY = defineQuery(
             }
         }`
 );
+
+export const PLAYLIST_BY_SLUG_QUERY = defineQuery(
+  defineQuery(`*[_type == 'playlist' && slug.current == $slug][0]{
+        _id,
+        title,
+        slug,
+        select[]->{
+            _id,
+            _createdAt,
+            title,
+            slug, 
+            author -> {
+                _id,
+                name,
+                slug,
+                image,
+                bio
+            },
+            views,
+            description,
+            category,
+            image,
+            pitch
+    }
+    `)
+);
