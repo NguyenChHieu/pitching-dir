@@ -112,6 +112,7 @@ export const PLAYLIST_BY_SLUG_QUERY = defineQuery(
             category,
             image,
             pitch
+        }
     }
     `)
 );
